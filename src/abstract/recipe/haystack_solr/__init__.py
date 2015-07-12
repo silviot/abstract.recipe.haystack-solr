@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-import os, stat, re, shutil
 from tempita import Template
 from zc.buildout import UserError
 from zc.recipe.egg import Egg
+import os
+import re
+import shutil
+import stat
 
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
@@ -31,12 +34,8 @@ class Recipe(object):
         self.eggs = options['eggs'].strip().split()
 
         options['django-settings'] = options.get('django-settings', '').strip()
-        options['django-settings-file'] = options.get(
-            'django-settings-file', '').strip()
-        if (not options['django-settings']) and \
-                (not options['django-settings-file']):
-            raise UserError("One between 'django-settings' and "
-                            "'django-settings-file' must be specified")
+        if not options['django-settings']:
+            raise UserError("'django-settings' must be specified")
         options['solr-location'] = options['solr-location'].strip()
         options['solr-config'] = options.get('solr-config', '')
 
@@ -117,7 +116,7 @@ class Recipe(object):
                 os.makedirs(path)
 
         solrconfig_path = os.path.join(
-            self.part_dir, 'solr', 'collection1', 'conf', 'solrconfig.xml'
+            self.part_dir,   'solr', 'collection1', 'conf', 'solrconfig.xml'
         )
         if not self.options['solr-config']:
             with open(solrconfig_path, 'rb') as src:
@@ -201,7 +200,6 @@ class Recipe(object):
             buildoutdir=self.buildout['buildout']['directory'],
             basedir=self.part_dir,
             djangosettings=self.options['django-settings'],
-            djangosettings_file=self.options['django-settings-file'],
             startcmd=self.parse_java_opts(),
             initialization=initialization
         )

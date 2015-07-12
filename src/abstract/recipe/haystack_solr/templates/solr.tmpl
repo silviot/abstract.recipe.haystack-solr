@@ -20,24 +20,7 @@ START_CMD = {{startcmd}}
 SCHEMA_FILE = '{{schema_file}}'
 
 def create_schema():
-    from django.core.management import setup_environ
-{{if djangosettings_file}}
-    import imp, logging
-    try:
-        imp.acquire_lock()
-        mod = imp.load_source('_django_settings', '{{djangosettings_file}}')
-    except Exception, e:
-        imp.release_lock()
-        sys.stderr.write("Error loading the settings module '%s': %s"
-                            % (settings_file, e))
-        sys.exit(1)
-    imp.release_lock()
-    # Setup settings
-    setup_environ(mod, '_django_settings')
-{{endif}}{{if djangosettings}}
-    import {{djangosettings}}
-    setup_environ({{djangosettings}}, '{{djangosettings}}')
-{{endif}}
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", '{{djangosettings}}')
     {{for line in initialization}}
     {{line}}
     {{endfor}}
