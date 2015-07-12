@@ -183,6 +183,7 @@ class Recipe(object):
         schema_file = os.path.join(
                 self.part_dir,
                 'solr',
+                'collection1',
                 'conf',
                 'schema.xml'
             )
