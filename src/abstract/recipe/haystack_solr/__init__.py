@@ -117,7 +117,7 @@ class Recipe(object):
                 os.makedirs(path)
 
         solrconfig_path = os.path.join(
-            self.part_dir, 'solr', 'conf', 'solrconfig.xml'
+            self.part_dir, 'solr', 'collection1', 'conf', 'solrconfig.xml'
         )
         if not self.options['solr-config']:
             with open(solrconfig_path, 'rb') as src:
